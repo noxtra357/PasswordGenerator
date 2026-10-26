@@ -1,14 +1,3 @@
-#!/usr/bin/env python3
-"""Генератор паролей на основе модуля secrets (криптостойкий).
-
-Примеры:
-    python passgen.py                      # один пароль, 16 символов
-    python passgen.py -l 20 -n 5           # 5 паролей по 20 символов
-    python passgen.py --no-symbols         # без спецсимволов
-    python passgen.py --no-ambiguous       # без похожих символов (0/O, 1/l/I)
-    python passgen.py --words 4            # парольная фраза из 4 слов
-"""
-
 import argparse
 import secrets
 import string
@@ -48,12 +37,12 @@ def generate_password(length=16, use_lower=True, use_upper=True,
     if length < len(pools):
         raise ValueError(f"Длина должна быть не меньше {len(pools)}.")
 
-    # по одному символу из каждого выбранного набора
+    
     chars = [secrets.choice(p) for p in pools]
-    # остальное добираем из общего набора
+    
     alphabet = "".join(pools)
     chars += [secrets.choice(alphabet) for _ in range(length - len(chars))]
-    # перемешиваем криптостойко
+    
     secrets.SystemRandom().shuffle(chars)
     return "".join(chars)
 
